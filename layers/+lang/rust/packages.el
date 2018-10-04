@@ -24,6 +24,7 @@
     toml-mode
     ;; packages for lsp-rust
     (lsp-rust :requires lsp-mode)
+    eglot
     ))
 
 (defun rust/init-cargo ()
@@ -58,6 +59,10 @@
     :init
     (progn
       (spacemacs/add-to-hook 'rust-mode-hook '(spacemacs//rust-setup-backend))
+      (if (eq 'rust-backend 'lsp-eglot)
+          (progn
+            (add-to-list 'eglot-server-programs `(rust-mode . 'rust-rls-cmd)))
+        )
       (spacemacs/declare-prefix-for-mode 'rust-mode "mg" "goto")
       (spacemacs/declare-prefix-for-mode 'rust-mode "mh" "help")
       (spacemacs/set-leader-keys-for-major-mode 'rust-mode

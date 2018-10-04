@@ -62,11 +62,20 @@ using `cargo-process-run'."
     )
   )
 
+(defun spacemacs//rust-setup-eglot ()
+  "Setup eglot backend"
+  (progn
+    (eglot-ensure)
+    )
+  )
+
+
 (defun spacemacs//rust-setup-backend ()
   "Conditionally setup rust backend."
   (pcase rust-backend
     (`racer (spacemacs//rust-setup-racer))
-    (`lsp (spacemacs//rust-setup-lsp)))
+    (`lsp (spacemacs//rust-setup-lsp))
+    (`lsp-eglot (spacemacs//rust-setup-eglot)))
   )
 
 (defun spacemacs//rust-setup-lsp-company ()
@@ -80,7 +89,7 @@ using `cargo-process-run'."
     (message "`lsp' layer is not installed, please add `lsp' layer to your dotfile."))
   )
 
-(defun spacemacs//rust-setup-racer-company ()
+(defun spacemacs//rust-setup-capf-company ()
   "Setup racer auto-completion."
         (spacemacs|add-company-backends
           :backends company-capf
@@ -92,8 +101,9 @@ using `cargo-process-run'."
 (defun spacemacs//rust-setup-company ()
   "Conditionally setup company based on backend."
   (pcase rust-backend
-    (`racer (spacemacs//rust-setup-racer-company))
-    (`lsp (spacemacs//rust-setup-lsp-company)))
+    (`racer (spacemacs//rust-setup-capf-company))
+    (`lsp (spacemacs//rust-setup-lsp-company))
+    (`lsp-eglot (spacemacs//rust-setup-capf-company)))
   )
 
 (defun spacemacs//rust-setup-rust-flycheck ()
@@ -104,7 +114,7 @@ using `cargo-process-run'."
 (defun spacemacs//rust-setup-lsp-flycheck ()
   "Setup lsp flycheck"
   (spacemacs/enable-flycheck 'lsp-mode)
-  (add-hook 'lsp-mode-hook 'flycheck-mode)
+  (spacemacs/add-flycheck-hook 'lsp-mode)
   )
 
 
@@ -112,5 +122,6 @@ using `cargo-process-run'."
   "Conditionally setup company based on backend."
   (pcase rust-backend
     (`racer (spacemacs//rust-setup-rust-flycheck))
-    (`lsp (spacemacs//rust-setup-lsp-flycheck)))
+    (`lsp (spacemacs//rust-setup-lsp-flycheck))
+    (`lsp-eglot ()))
   )

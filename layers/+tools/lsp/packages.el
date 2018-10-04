@@ -21,7 +21,16 @@
      ;; this logical package serves to hook all flycheck related configuration
      ;; for LSP.
      (flycheck-lsp :requires flycheck :location built-in)
+     eglot
      ))
+
+(defun lsp/init-eglot ()
+    (use-package eglot
+      :defer t
+      :config
+      (progn
+        (evil-set-command-property 'xref-find-definitions :jump t)
+        (spacemacs//setup-eglot))))
 
 (defun lsp/init-lsp-mode ()
   (use-package lsp-mode

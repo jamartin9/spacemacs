@@ -8,7 +8,19 @@
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
-
+(defun spacemacs//setup-eglot ()
+    "Setup eglot bindings"
+    (spacemacs/declare-prefix "ae" "eglot")
+    (spacemacs/set-leader-keys "aes" 'eglot
+      "aeR" 'eglot-reconnect
+      "aeq" 'eglot-shutdown
+      "ae=" 'eglot-format
+      "aeh" 'eglot-help-at-point
+      "aeO" 'eglot-events-buffer
+      "aeE" 'eglot-stderr-buffer
+      "aer" 'eglot-rename
+      "aee" 'eglot-code-actions)
+    )
 (defun spacemacs//lsp-sync-peek-face ()
   "Synchronize the face used in `lsp-ui' peek window according to the theme."
   (set-face-attribute 'lsp-ui-peek-list nil

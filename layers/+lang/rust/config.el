@@ -13,7 +13,7 @@
 
 (spacemacs|define-jump-handlers rust-mode)
 (defvar rust-backend 'racer
-  "The backend to use for completion. Possible values are `lsp' `racer'."
+  "The backend to use for completion. Possible values are `lsp' `lsp-eglot' `racer'."
   )
 (defvar rust-rls-cmd '("rustup" "run" "nightly" "rls")
   "lsp-rust command. Set to nil for environment configuration. Defaults to rustup nightly rls"
